@@ -26,7 +26,7 @@ export default function UploadingPage() {
             formData.append("cv_file", resume);
             formData.append("job_description", jobDescription);
 
-            const response = await fetch("https://cv-matcher-backend.onrender.com", {
+            const response = await fetch("https://cv-matcher-backend-68sq.onrender.com/match", {
                 method: "POST",
                 body: formData,
             });

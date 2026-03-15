@@ -2,7 +2,7 @@ from .utils.pdf_reader import extract_text_from_pdf
 from .utils.text_cleaner import clean_text
 from sklearn.metrics.pairwise import cosine_similarity
 from fastapi import FastAPI, File, UploadFile, Form
-from sentence_transformers import SentenceTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
 import spacy
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -31,11 +31,17 @@ def get_spacy():
 
     return nlp
 
-def get_embed_model():
-    global embed_model
-    if embed_model is None:
-        embed_model = SentenceTransformer("all-MiniLM-L6-v2")
-    return embed_model
+def compute_similarity(cv_text, jd_text):
+    vectorizer = TfidfVectorizer(stop_words="english")
+
+    tfidf = vectorizer.fit_transform([cv_text, jd_text])
+
+    similarity = cosine_similarity(
+        tfidf[0:1],
+        tfidf[1:2]
+    )[0][0]
+
+    return similarity * 100
 
 
 # Domain-specific skills dictionary
@@ -81,6 +87,7 @@ NOISE_WORDS = {
     "mindset", "performance", "practice", "understanding", "tool", "mentor", "knowledge", "contribute"
 }
 
+
 def extract_skills(text: str) -> list[str]:
     cleaned_text = clean_text(text.lower())
     skills_set: set[str] = set()
@@ -118,10 +125,7 @@ def extract_skills(text: str) -> list[str]:
     
     return sorted(list(skills_set))
 
-def compute_embedding_score(cv_text, jd_text):
-    model = get_embed_model()
-    cv_embed = model.encode(cv_text)
-    jd_embed = model.encode(jd_text)
+
 
     return cosine_similarity([cv_embed],[jd_embed])[0][0] * 100
 
@@ -149,10 +153,10 @@ async def match(
     skill_score = len(matched_skills)/max(len(jd_skills),1)*100
 
      #semantic embedding score
-    embedding_score = compute_embedding_score(cv_text, jd_text)
+    similarity_score = compute_similarity(cv_text, jd_text)
 
     #final score
-    final_score = 0.7*embedding_score + 0.3*skill_score
+    final_score = 0.7*similarity_score + 0.3*skill_score
 
     return {
     "fit_score": round(float(final_score), 2),

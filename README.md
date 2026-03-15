@@ -10,4 +10,4 @@ The system is built to demonstrate a real-world application of AI in recruitment
 ### Try the deployed version: [CV Matcher](https://cv-ai-matching-system.onrender.com/)
 
 ## Flow of the system
-![Workflow Diagram](public/images/flowdiagram.png)
+![Workflow Diagram](/frontend/cv-matcher-frontend/public/images/flowdiagram.png)

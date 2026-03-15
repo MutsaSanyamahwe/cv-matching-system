@@ -26,6 +26,9 @@ RUN python -m nltk.downloader stopwords wordnet
 # Copying backend code
 COPY ./src ./src
 
+# Copying the pickle file into /app
+COPY tfidf_vectorizer.pkl ./tfidf_vectorizer.pkl
+
 # Expose API port
 EXPOSE 8000
 

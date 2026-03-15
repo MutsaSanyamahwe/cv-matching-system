@@ -1,7 +1,7 @@
 # AI-Powered CV & Job Description Matching System
 
 ## Overview
-This project is an AI-powered system designed to analyze CVs and job descriptions and provide a fit score indicating how well a candidate matches a job. It combines text processing, NLP, and machine learning techniques to extract skills, compare semantic content, and identify gaps in qualifications.
+This project is an AI-powered system designed to analyze CVs and job descriptions and provide a fit score indicating how well a candidate matches a job. It combines **text processing, NLP**, and **machine learning techniques** to extract skills, compare semantic content, and identify gaps in qualifications.
 The system is built to demonstrate a real-world application of AI in recruitment automation while being scalable and deployable.
 
 **Important** This system is not 100% accurate. AI can identify explicit skills and patterns, but implicit experience, context, and nuanced soft skills may not always be detected. It is mean to only be a supportive tool and accuracy depends on the quality of the CV and job description.
@@ -14,8 +14,8 @@ The system is built to demonstrate a real-world application of AI in recruitment
 
 ## Features
 
-- Skill Extraction: Uses POS tagging, NER, and domain-specific dictionaries.
-- Semantic Matching: Uses TF-IDF vectorizer for text similarity scoring.
+- Skill Extraction: `Uses POS tagging`, `NER`, and domain-specific dictionaries.
+- Semantic Matching: `Uses TF-IDF` vectorizer for text similarity scoring.
 - Match & Gap Analysis: Clearly shows matched vs missing skills.
 - PDF Input: Supports CVs in PDF format.
 - Deployable: Runs via FastAPI backend and Docker container.

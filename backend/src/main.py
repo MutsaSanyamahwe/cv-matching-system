@@ -1,17 +1,16 @@
-import pickle
 from .utils.pdf_reader import extract_text_from_pdf
 from .utils.text_cleaner import clean_text
 from sklearn.metrics.pairwise import cosine_similarity
-from pathlib import Path
 from fastapi import FastAPI, File, UploadFile, Form
-import shutil
 from sentence_transformers import SentenceTransformer
 import spacy
 from fastapi.middleware.cors import CORSMiddleware
 
 #Loading the models
-nlp = spacy.load("en_core_web_sm")
-embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+nlp = None
+embed_model = None
+
+
 
 app = FastAPI()
 
@@ -23,6 +22,21 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+def get_spacy():
+    global nlp
+    if nlp is None:
+        nlp=spacy.load("en_core_web_sm")
+
+    return nlp
+
+def get_embed_model():
+    global embed_model
+    if embed_model is None:
+        embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+    return embed_model
+
 
 # Domain-specific skills dictionary
 DOMAIN_SKILLS = {
@@ -71,7 +85,7 @@ def extract_skills(text: str) -> list[str]:
     cleaned_text = clean_text(text.lower())
     skills_set: set[str] = set()
     
-    doc = nlp(cleaned_text)
+    doc = get_spacy()(cleaned_text)
     
     # Add nouns/proper nouns, but skip noise words
     for token in doc:
@@ -105,8 +119,9 @@ def extract_skills(text: str) -> list[str]:
     return sorted(list(skills_set))
 
 def compute_embedding_score(cv_text, jd_text):
-    cv_embed = embed_model.encode(cv_text)
-    jd_embed = embed_model.encode(jd_text)
+    model = get_embed_model()
+    cv_embed = model.encode(cv_text)
+    jd_embed = model.encode(jd_text)
 
     return cosine_similarity([cv_embed],[jd_embed])[0][0] * 100
 

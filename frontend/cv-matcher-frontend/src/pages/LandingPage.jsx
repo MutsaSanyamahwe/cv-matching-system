@@ -8,10 +8,10 @@ function LandingPage() {
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
 
     const steps = [
-        { img: "images/Step1.png", title: "Step 1", desc: "Upload your resume." },
-        { img: "images/Step2.png", title: "Step 2", desc: "Upload your job description." },
-        { img: "images/Step3.jpg", title: "Step 3", desc: "Get AI analytics of matching and missing skills." },
-        { img: "images/Step4.png", title: "Step 4", desc: "View your fit score instantly." },
+        { img: "/images/Step1.png", title: "Step 1", desc: "Upload your resume." },
+        { img: "/images/Step2.png", title: "Step 2", desc: "Upload your job description." },
+        { img: "/images/Step3.jpg", title: "Step 3", desc: "Get AI analytics of matching and missing skills." },
+        { img: "/images/Step4.png", title: "Step 4", desc: "View your fit score instantly." },
     ];
 
 
@@ -57,7 +57,7 @@ function LandingPage() {
 
                 <div className="hidden md:flex md:w-2/3 items-center justify-end mr-4">
                     <img
-                        src="images/LandingPage1.png"
+                        src="/images/LandingPage1.png"
                         alt="AI Resume Analysis"
                         className="max-w-lg"
                     />

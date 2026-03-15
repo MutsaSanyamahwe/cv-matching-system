@@ -7,10 +7,6 @@ from pathlib import Path
 
 
 
-#Downloading reqquired NKTK resources
-nltk.download('stopwords')
-nltk.download('wordnet')
-
 #Initialize lemmatizer and stop words
 tokenizer = TreebankWordTokenizer()
 lemmatizer = WordNetLemmatizer()
